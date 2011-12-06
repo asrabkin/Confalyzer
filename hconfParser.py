@@ -1,3 +1,8 @@
+# (c) Copyright 2011 the Regents of the University of California
+# Portions (c) Copyright 2011 Cloudera, Inc.
+#  See the file COPYING for license information
+
+
 from xml.sax.handler import ContentHandler 
 import xml.sax
 

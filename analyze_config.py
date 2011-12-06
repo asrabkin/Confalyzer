@@ -1,7 +1,7 @@
-# (c) Copyright 2011he Regents of the University of California
+# (c) Copyright 2011 the Regents of the University of California
 # Portions (c) Copyright 2011 Cloudera, Inc.
 #  See the file COPYING for license information
-#
+
 
 import os
 import glob

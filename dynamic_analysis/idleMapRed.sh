@@ -1,5 +1,7 @@
 #!/bin/bash
-# (c) Copyright 2011 Cloudera, Inc.
+# (c) Copyright 2011 the Regents of the University of California
+# Portions (c) Copyright 2011 Cloudera, Inc.
+#  See the file COPYING for license information
 
 
 export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/1.6.0/Home
