@@ -1,0 +1,53 @@
+A tool for analyzing Hadoop's configuration usage.
+Built on top of JChord (http://code.google.com/p/jchord/)
+
+Usage
+-----
+python analyze_config.py <hadoop or hbase jar> [onlyhdfs|onlymapred|onlyhbase]
+
+You should ignore the printed warning about chord.work.dir.
+Expect it to take 20-40 minutes depending which version.
+
+The analyzer assumes that the Jar is alongside the usual hadoop lib directories with the dependencies. So you should be pointing it, e.g., at hadoop-xyz/hadoop-core-xyz.jar.
+
+By default, the tool will check all entrypoints for mapred+hdfs.  Specifying only[mapred|hdfs|hbase] will look at the entrypoints for those systems.
+
+
+Outputs a list of options in hadoop-configuration.html, tagged with:
+ - Name
+ - Default value, both in -defaults.xml and in the code.
+ - Where in the code the option is read.
+ - Which daemons potentially use the value.
+ - The description in -defaults.xml.
+
+Right now, this is extracted via static analysis, alone.
+
+
+Configuration
+-------------
+The main configuration option that needs to be monitored as Hadoop evolves is the list of entrypoints. JChord doesn't know which main() methods matter and which classes can be invoked remotely, so you have to specify those explicitly. The files hbase-entrypoints and entrypoints-20-all have lists of the main methods and RPC-exposed interfaces that I know about. If you are getting inadequate code coverage, see if there's some entrypoint that's missing.
+
+Much of the core of the analysis is written in datalog. By default, a Java datalog solver is used. If you want to make analysis faster and you know what you're doing, you can switch to using buddy, a native datalog solver. Add the line "chord.use.buddy=true" to chord.properties, and drop a suitable 'buddy' library into the lib directory.
+
+Debugging
+--------
+Log output will be in chord_output/log.txt
+Other important files in chord_output are methods.txt, the list of reached methods and MM.txt, the call graph. 
+
+
+Planned refinements and known limitations
+-----------------------------------------
+ - The option name regexes have .* when they should have something like [^ ]*
+ - Dynamic analysis to pinpoint excessive reads and to get more precise information about usage.
+ - Should print inferred type.
+
+
+More Information
+----------------
+The static analysis uses the JChord analysis tool by Mayur Naik et al.
+See http://code.google.com/p/jchord/ for documentation.
+JChord is under BSD license.
+
+The option extraction algorithm is based on the one presented at ICSE 2011 in the paper "Static Extraction of Program Configuration Options" by Ariel Rabkin and Randy Katz
+
+Current lead developer: Ariel Rabkin

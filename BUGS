@@ -1,0 +1,2 @@
+
+Should tolerate path-to-directory, not just path-to-core jar. Should at least warn more helpfully.
