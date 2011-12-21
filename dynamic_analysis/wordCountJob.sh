@@ -31,7 +31,7 @@ else
 fi
 
 date
-echo "starting JT and TT; expect a 20 second pause"
+echo "starting JT and TT; expect a 20 second pause. Screen output is from client and will also go to file."
 
 ($HADOOP/bin/hadoop --config $CONFDIR jobtracker > $TESTNAME-jt.log 2>&1) &
 ($HADOOP/bin/hadoop --config $CONFDIR tasktracker > $TESTNAME-tt.log 2>&1) &
@@ -56,7 +56,7 @@ $HADOOP/bin/hadoop --config $CONFDIR jar $HADOOPEXAMPLE wordcount /tmpshells /to
 
 sleep 60
 
-cat $HADOOP/logs/userlogs/*/*/syslog > $TESTNAME-userlogs.log
+cat `find $HADOOP/logs/userlogs -name syslog` > $TESTNAME-userlogs.log
 
 for proc in `ps aux | grep hadoop | grep -v 'grep' | grep -vi python | grep -v chord  | awk '{} {print $2}'` ;  do 
 echo "killing $proc"

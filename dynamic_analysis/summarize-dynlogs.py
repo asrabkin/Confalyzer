@@ -29,7 +29,11 @@ def main():
 
 
 NAME_REGEX = re.compile("(.*)-([^-]*).log")
-READ_REGEX = re.compile("Config Monitoring: ([^ ]+) at .* from (.*)")
+READ_REGEX_CDH = re.compile("Config Monitoring: ([^ ]+) at .* from (.*)")
+READ_REGEX_VANILLA= re.compile("Config Monitoring: ([^ ]+) at .*")
+
+READ_REGEX = READ_REGEX_VANILLA
+
 
 def scan(logfilename, opt_to_process_list,opt_proc_to_scen_count, all_procs):
     match = NAME_REGEX.match(logfilename)
@@ -48,8 +52,8 @@ def scan(logfilename, opt_to_process_list,opt_proc_to_scen_count, all_procs):
         opt_read = READ_REGEX.search(ln)
         if opt_read:
             opt_name = opt_read.group(1)
-            opt_source = opt_read.group(2)
-            
+            opt_source = opt_read.group(2) if opt_read.lastindex > 1 else ""
+    
             if opt_source.endswith("/job.xml"):
                 opt_source = "job.xml"
             

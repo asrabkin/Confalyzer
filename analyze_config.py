@@ -461,20 +461,21 @@ def dumpHTML(staticReadPoints,writePoints, jarDefaults, jarVersion, codeDefaults
 
 	print len(unusedSet),"possibly unused options."  #to console, not file
 
+	print >>outF, "<hr/><h3>Total of",len(unusedSet),"possibly unused options</h3>"
+
 	if len(unusedSet) > 0:
-		print >>outF, "<hr/><h3>Total of",len(unusedSet),"possibly unused options</h3>"
 		print >>outF, "<ul>"
 		for o in sorted(unusedSet):
 			print >> outF, "<li>"+o+"</li>"
 		print >> outF,"</ul>"
+
+	print >>outF, "<hr/><h3>Total of",len(falsePos),"real options missed by static analysis</h3>"
 	if len(falsePos) > 0:
-		print >>outF, "<hr/><h3>Total of",len(falsePos),"real options missed by static analysis</h3>"
 		print >>outF, "<p>These are real options that were missed by static analysis but found dynamically</p>"
 		print >>outF, "<ul>"
 		for o in sorted(falsePos):
 			print >> outF, "<li>"+o+"</li>"
 		print >>outF, "</ul>"
-
 	
 	print >>outF, "</body></html>"
 	outF.close()
